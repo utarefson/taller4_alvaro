@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authentication.Cookies
+@using Microsoft.AspNetCore.Http
+
+@inject NavigationManager Navigation
+<AuthorizeView>
+    <Authorized>
+        <p>
+            @context.User.Claims.Where(s=>s.Type.IndexOf("emailaddress")>=0).FirstOrDefault().Value.ToString()
+       </p>
+       <a href="auth/logout" class="btn btn-primary mb-3">Cerrar sesión</a> 
+       
+    </Authorized>
+    <NotAuthorized>      
+        <a href="auth/signin-google" class="btn btn-primary mb-3">Iniciar sesión con Google</a>   
+    </NotAuthorized>  
+</AuthorizeView>
+@code {
+   
+}

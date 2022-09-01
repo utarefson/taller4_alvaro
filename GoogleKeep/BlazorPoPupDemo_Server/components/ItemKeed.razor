@@ -1,0 +1,34 @@
+﻿<div class="card">
+    <div class="card-header">
+        Actualizacion Nota
+    </div>
+    <div class="card-body">
+        
+        <form>
+
+            <input type="hidden" asp-for="IdNote" />
+            <div class="mb-2">
+                <label class="form-label">Titulo</label>
+                <input type="text" class="form-control form-control-sm" asp-for="Title" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Contenido</label>
+                <input type="text" class="form-control form-control-sm" asp-for="Content" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Color</label>
+                <input type="color" class="form-control form-control-sm" asp-for="Color.HexCode" />
+               
+            </div>
+
+            <button type="submit" class="btn btn-success btn-sm">Guardar Cambios</button>
+            <a asp-action="Index" class="btn btn-warning btn-sm">Volver a lista</a>
+        </form>
+
+    </div>
+
+</div>
+
+@code {
+
+}
