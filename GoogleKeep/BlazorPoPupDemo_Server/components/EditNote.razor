@@ -1,0 +1,62 @@
+﻿@using BlazorPoPupDemo_Server.Data
+@using BlazorPoPupDemo_Server.Models
+@using System.Text
+@inject NavigationManager uriHelper;
+@using BlazorPoPupDemo_Server.Data
+@using BlazorPoPupDemo_Server.Models
+<div class="card" style="padding: 1rem;width: 50%;">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Title:</label>
+      <input type="text" @bind="Note.Title" class="form-control"  placeholder="">
+    </div>
+    <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Content:</label>
+          <input @bind="Note.Content" class="form-control" />
+    </div>
+    <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Color:</label>
+          <input type="color" class="form-control form-control-sm" @bind="Note.Color.HexCode" />
+          <!--select class="form-control" bind="Note.Color.Name" style="text-align:center">
+              foreach (var item in GetColors())
+            {
+                <option value="item.Name">item.Name</option>
+            }
+            
+         </select-->
+    </div>
+
+    <div class="mb-3">
+      <button type="button" @onclick="SaveNote" class="btn btn-primary mb-3">SAVE CHANGES</button>
+    </div>
+</div>
+@code {
+    [Parameter] public Note Note{get;set;}
+    [Parameter] public int Index{get;set;}
+    public List<Color> Colors{ get; set; }
+    public List<Color> GetColors()
+    {
+        ServiceDrive service = new ServiceDrive();
+        Colors = new List<Color>();
+        Data data = service.ListFiles();
+        if (data == null) 
+        {
+            return new List<Color>();
+        }
+        Colors = data.Colors;
+        return data.Colors;
+    }
+    public void SaveNote()
+    {
+        ServiceDrive service = new ServiceDrive();
+        Data data = service.ListFiles();
+        if (data != null)
+        {
+            data.Notes[Index] = Note;
+            DataResponse response = service.UpdateList(data);
+            if (response.StatusCod == 200)
+            {
+                uriHelper.NavigateTo("/", forceLoad: true);
+            }
+        }
+    }
+}

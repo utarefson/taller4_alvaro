@@ -1,0 +1,90 @@
+﻿@inject IModalService modal
+@using BlazorPoPupDemo_Server.Data
+@using BlazorPoPupDemo_Server.Models
+@using Blazorise
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+<div class="page-content container note-has-grid"  style="background:#edf1f5">
+
+    <AuthorizeView>
+    <Authorized>
+       <div class="tab-content bg-transparent">
+        <div id="note-full-container" class="note-has-grid row">
+
+             @foreach (var item in GetListFiles() )
+            {
+                
+                <div class="col-md-4 single-note-item all-category note-business DeleteNote" style="padding: 1rem;">
+                    <div class="card card-body" style="background:@item.Color.HexCode">
+                        <span class="side-stick"></span>
+      
+                        <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="hola">@item.Title</h5>
+                        <div class="note-content">
+                            
+                            <p  class="note-inner-content text-muted" data-notecontent="mensaje">@item.Content</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="mr-1" style="cursor: pointer;margin: 5px;" @onclick="@(() => EditNoteModal(@item))"><a class="btn btn-primary btn-sm" ><i class="fa fa-edit remove-note"></i></a></span>
+                            <span class="mr-1"  style="cursor: pointer;margin: 5px;"><a class="btn btn-warning btn-sm" @onclick="@(() => ArchivedNoteModal(@item))" ><i class="fa fa-archive"></i></a></span>
+                            <span class="mr-1"  style="cursor: pointer;margin: 5px;"><a class="btn btn-danger btn-sm" @onclick="@(() => RemoveNoteModal(@item))"><i class="fa fa-trash remove-note"></i></a></span>
+                                    
+                        </div>
+                    </div>
+                </div>
+                
+            }
+            
+                    
+        </div>
+    </div>
+    </Authorized>
+    <NotAuthorized>      
+        <p> Sin registro</p>  
+    </NotAuthorized>  
+</AuthorizeView>
+    
+
+</div>
+@code {
+    public IList<Note> GetListFiles()
+    {
+        ServiceDrive service = new ServiceDrive();
+        Data data = service.ListFiles();
+        if (data == null)
+        {
+            return new List<Note>();
+
+        }
+        IList<Note> list = new List<Note>();
+        foreach (var item in data.Notes)
+        {
+            if (item.Archived == 0 && item.Remove == 0)
+            {
+                list.Add(item);
+            }
+        }
+        return list;
+    }
+    public void ArchivedNoteModal(Note note)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmArchived.Note), note);
+        parameters.Add(nameof(ConfirmArchived.Index), note.Id);
+        modal.Show<ConfirmArchived>("Archived note", parameters);
+
+    }
+    public void RemoveNoteModal(Note note)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmArchived.Note), note);
+        parameters.Add(nameof(ConfirmArchived.Index), note.Id);
+        modal.Show<ConfirmArchived>("Archived note", parameters);
+
+    }
+    public void EditNoteModal(Note note)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditNote.Note), note);
+        parameters.Add(nameof(EditNote.Index), note.Id);
+        modal.Show<EditNote>("Display to edit", parameters);
+    }
+}

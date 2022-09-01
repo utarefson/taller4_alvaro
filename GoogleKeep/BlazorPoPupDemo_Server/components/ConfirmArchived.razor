@@ -1,0 +1,41 @@
+﻿@using BlazorPoPupDemo_Server.Data
+@using BlazorPoPupDemo_Server.Models
+@using System.Text
+@inject NavigationManager uriHelper;
+<div class="card" style="padding: 1rem;width: 50%;">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Title: @Note.Title</label>
+    
+    </div>
+    <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Content: Note.Content</label>
+    </div>
+    <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Color: @Note.Color.Name</label>
+          
+    </div>
+
+    <div class="mb-3">
+      <button type="button" @onclick="SaveNote" class="btn btn-primary mb-3">Archive</button>
+    </div>
+</div>
+@code {
+    [Parameter] public Note Note{get;set;}
+    [Parameter] public int Index{get;set;}
+
+    public void SaveNote()
+    {
+        ServiceDrive service = new ServiceDrive();
+        Data data = service.ListFiles();
+        if (data != null)
+        {
+            Note.Archived = 1;
+            data.Notes[Index] = Note;
+            DataResponse response = service.UpdateList(data);
+            if (response.StatusCod == 200)
+            {
+                uriHelper.NavigateTo("/archiveds", forceLoad: true);
+            }
+        }
+    }
+}
