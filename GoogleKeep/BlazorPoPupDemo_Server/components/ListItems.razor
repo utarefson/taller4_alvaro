@@ -47,7 +47,7 @@
         IList<Note> list = new List<Note>();
         foreach (var item in data.Notes)
         {
-            if (item.Archived == 0 && item.Remove == 0)//select section filter
+            if (item.Archived == 0 && item.Remove == 0)
             {
                 list.Add(item);
             }
@@ -56,11 +56,13 @@
     }
     public void ChangeLocationNote(Note note,int change)
     {
-        if (change == 1) {//archive
+        if (change == 1) 
+        {
             note.Archived = 1;
             note.Remove = 0;
         }
-        if (change == 2) {//remove
+        if (change == 2) 
+        {
             note.Remove = 1;
             note.Archived = 0;
         }

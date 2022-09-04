@@ -56,12 +56,12 @@
         Data data = service.ListFiles();
         if (data != null)
         {
-            if (Index == -1)//to create 
+            if (Index == -1)
             {
                 data.Notes.Add(Note);
             }
             else
-            {//to update
+            {
                 data.Notes[Index] = Note;
             }
             DataResponse response = service.UpdateList(data);

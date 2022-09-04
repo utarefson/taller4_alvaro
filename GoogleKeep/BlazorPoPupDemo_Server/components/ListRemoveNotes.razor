@@ -56,11 +56,13 @@
     }
     public void ChangeLocationNote(Note note,int change)
     {
-        if (change == 3) {//all
+        if (change == 3) 
+        {
             note.Archived = 0;
             note.Remove = 0;
         }
-        if (change == 1) {//archived
+        if (change == 1) 
+        {
             note.Remove = 0;
             note.Archived = 1;
         }
