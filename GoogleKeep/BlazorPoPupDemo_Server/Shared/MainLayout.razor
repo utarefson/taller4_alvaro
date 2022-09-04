@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main" style="background:#edf1f5">
+    <div class="top-row px-4">
+        <form class="gb_Se aSVJYc-G0jgYd-ZMv3u" method="get" role="search">
+            <div class="gb_tf">
+            <input class="gb_df" placeholder="Search" role="combobox" value="" type="text">
+            </div>
+        </form>
+        <BlazorPoPupDemo_Server.components.AccountsGoogle/>
+    </div>
+    <div class="content px-4">
+        @Body
+    </div>
+
+</div>
