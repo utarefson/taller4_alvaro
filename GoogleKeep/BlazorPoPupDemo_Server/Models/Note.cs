@@ -14,7 +14,7 @@
         public string Content { get; set; }
 
         public Color Color { get; set; }
-        public int Archived { get; set; }//1
-        public int Remove { get; set; }//1
+        public int Archived { get; set; }
+        public int Remove { get; set; }
     }
 }
